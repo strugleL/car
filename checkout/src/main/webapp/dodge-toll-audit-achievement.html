@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        body, html {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=yaDRGoon5YoRzAAwH781yUgn"></script>
+
+    <link href="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/jquery.dataTables.min.css"/>
+    <script type="text/javascript" src="js/angular/angular.min.js"></script>
+    <!--jQuery-->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+
+    <title>稽查工作成果</title>
+</head>
+<body ng-app="statisticApp" ng-controller="statisticCtrl">
+<div class="container" style="width: 100%;">
+
+    <div class="row">
+        <h3 style="margin-left: 10px; margin-left: 20px">稽查工作成果</h3>
+    </div>
+    <!--系统基本信息-->
+    <div class="row">
+        <h4 style="float: right; margin-right: 20px;">当前时间：{{datetime|date : 'yyyy-MM-dd hh:mm:ss'}}</h4>
+    </div>
+
+    <!--当前状况展示区域-->
+    <div class="row">
+        <div class="row">
+            <h4 style="float: left; margin-left: 20px;">当前状况展示区域</h4>
+        </div>
+        <!-- Stats -->
+        <div class="col-lg-5 col-sm-5">
+            <div class="panel panel-box">
+                <div class="row" style="margin-left: 10px; height: 20px; padding-top: 5px">
+                    近一个月确认系统报警次数
+                </div>
+                <div class="row" style="margin-left: 20px; text-align: center; height: 80px">
+                    <h1>{{findTollTimes.times}}次</h1>
+                </div>
+                <div class="row" style="margin-left: 20px; height: 100px;">
+                    <div class="row" style="height: 60px; padding-top: 20px">
+                        <span style="float: left; margin-left: 20px"><font
+                                size="5">{{findTollTimes.huanbi|number:2}}%</font></span>
+                        <span style="float: right; margin-right: 50px"><font
+                                size="5">{{findTollTimes.tongbi|number:2}}%</font></span>
+                    </div>
+                    <div class="row" style="height: 40px; padding: 5px">
+                        <span style="float: left; margin-left: 20px"><font size="3">环比</font></span>
+                        <span style="float: right; margin-right: 50px"><font size="3">同比</font></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-sm-5">
+            <div class="panel panel-box">
+                <div class="row" style="margin-left: 10px; height: 20px; padding-top: 5px">
+                    近一个月取消系统报警次数
+                </div>
+                <div class="row" style="margin-left: 20px; text-align: center; height: 80px">
+                    <h1>{{systemAlarm.times}}次</h1>
+                </div>
+                <div class="row" style="margin-left: 20px; height: 100px;">
+                    <div class="row" style="height: 60px; padding-top: 20px">
+                        <span style="float: left; margin-left: 20px"><font
+                                size="5">{{systemAlarm.huanbi|number:2}}%</font></span>
+                        <span style="float: right; margin-right: 50px"><font
+                                size="5">{{systemAlarm.tongbi|number:2}}%</font></span>
+                    </div>
+                    <div class="row" style="height: 40px; padding: 5px">
+                        <span style="float: left; margin-left: 20px"><font size="3">环比</font></span>
+                        <span style="float: right; margin-right: 50px"><font size="3">同比</font></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end stats -->
+    </div>
+
+    <!--图表区域-->
+    <div class="row" style="margin: auto">
+        <div class="row">
+            <h4 style="float: left; margin-left: 20px;">历史走势展示区域</h4>
+        </div>
+        <div class="row">
+            <div class="panel panel-box">
+                <div id="echartsline" style="width: auto; height: 400px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/dodge-toll-audit-owner.js"></script>
+<script type="text/javascript" src="js/baseUrl.js"></script>
+
+</html>

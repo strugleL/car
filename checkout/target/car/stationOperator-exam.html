@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        body, html {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=yaDRGoon5YoRzAAwH781yUgn"></script>
+
+    <link href="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/jquery.dataTables.min.css"/>
+    <script type="text/javascript" src="js/angular/angular.min.js"></script>
+    <!--jQuery-->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <title>分收费站操作员考核</title>
+</head>
+<body ng-app="operatorApp" ng-controller="operatorCtrl">
+    <div class="row" style="margin: auto;">
+    <div class="row">
+        <h4 style="float: left; margin-left: 20px; display: inline-block">分收费员考核区域</h4>
+    </div>
+    <div class="row" style="text-align: right; margin-bottom: 10px">
+        <span style="height: 19px; line-height: 19px"><b>范围选择:</b> &nbsp;&nbsp;</span>
+        <select style="float: right; display: inline-block; margin-right: 32px" ng-model="operatorsSelectedOption"
+                ng-change="operatorsChangeScope(operatorsSelectedOption)"
+                ng-options="x for (x,y) in operatorsOptions">
+        </select>
+    </div>
+    <div class="row" style="margin: auto; padding-right: 20px;">
+        <table id="operatorsTable" class="table table-striped" style="margin: 0 0px 10px 10px">
+            <thead>
+            <tr>
+                <th>收费员工号</th>
+                <th>出口收费站名称(路段名+收费站名)</th>
+                <th>收费员确认并处置的逃费次数(单位:次)</th>
+                <th>系统报警次数(单位:次)</th>
+                <th>系统报警处置率(单位:%)</th>
+            </tr>
+            </thead>
+            <!--<tbody>-->
+            <!--<tr ng-repeat="row in rows" on-finish-render-filters>-->
+            <!--<td>{{row.station}}</td>-->
+            <!--<td>{{row.action1}}次</td>-->
+            <!--<td>{{row.saveMoney}}元</td>-->
+            <!--<td>-->
+            <!--<span>{{row.rate}}%</span>-->
+            <!--</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+
+        </table>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/baseUrl.js"></script>
+<script type="text/javascript" src="js/stationOperator-examine.js"></script>
+</html>

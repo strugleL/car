@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+        body, html {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+    </style>
+
+    <link href="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen"/>
+    <!--引入日历控件-->
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=yaDRGoon5YoRzAAwH781yUgn"></script>
+    <!--jQuery,必须放到前面，否则无法显示日历控件-->
+    <script type="text/javascript" src="js/jquery.js"></script>
+
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <!--引入angularJS-->
+    <script type="text/javascript" src="js/angular/angular.min.js"></script>
+
+    <!--jQuery动画暂停插件-->
+    <script type="text/javascript" src="js/jquery.pause.min.js"></script>
+    <!--滚动效果js-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+
+    <script type="text/javascript" src="js/jquery.vticker.min.js"></script>
+
+
+    <!--basic styles-->
+
+    <link href="/auditPage/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/auditPage/assets/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="/auditPage/assets/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+
+    <!-- page specific plugin styles -->
+
+    <!-- fonts -->
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="/auditPage/assets/css/ace.min.css" />
+    <link rel="stylesheet" href="/auditPage/assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="/auditPage/assets/css/ace-skins.min.css" />
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="/auditPage/assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+
+    <title>高速路逃费稽核典型应用</title>
+
+
+</head>
+<body ng-app="auditApp1" ng-controller="auditCtrl1">
+<div class="container" style="width: 100%">
+    <div class="row">
+        <h3 style="margin-left: 10px; margin-left: 20px">高速路逃费稽核典型应用</h3>
+    </div>
+    <!--系统基本信息-->
+    <div class="row">
+        <h4 style="float: left; margin-left: 20px">收费站逃费稽核监控面板</h4>
+        <h4 style="float: right; margin-right: 20px;">当前时间：{{datetime|date : 'yyyy-MM-dd hh:mm:ss'}}</h4>
+    </div>
+
+    <!--<div class="row" style="width: inherit;">-->
+
+    <!--新增按时间或车牌号查询逃费详细信息-->
+    <div class="row">
+        <form ng-submit="searchCarNumber()">
+            <div class="col-lg-6 col-xs-6" style="display: inline-block">
+                <label class="col-xs-2">日期：</label>
+                <div class='col-xs-5'>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" id="inputStarttime" value=" " placeholder="开始时间"  ng-model="starttime"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <p class="col-xs-1">---</p>
+                <div class='col-xs-4'>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker2'>
+                            <input type='text' class="form-control" id="inputEndtime" value=" " placeholder="结束时间"  ng-model="endtime"/>
+                            <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-3" style="display: inline-block">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">车牌号：</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="inputCarno" placeholder="粤MY0589" value=" " ng-model="carNumber"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-3" style="display: inline-block">
+                <button class="btn btn-default" type="submit">查询</button>
+            </div>
+        </form>
+    </div>
+    <!--车辆信息-->
+
+    <!--更改将col-lg-6 col-md-6改为col-lg-12 col-md-12-->
+
+    <div class="col-lg-12 col-md-12" style="margin: auto;">
+        <!--车辆逃费监控信息-->
+        <div class="panel panel-box">
+            <div style="height: 250px; border: solid; border-width: 1px; text-align: center">
+                <table class="table table-striped" style="margin: auto; width: 100%;">
+                    <tbody>
+                    <tr>
+                        <td height="21" width="9.333%">车牌号</td>
+                        <td height="21" width="8.333%">入口时间</td>
+                        <td height="21" width="8.333%">出口时间</td>
+                        <td height="21" width="8.333%">入口站名</td>
+                        <td height="21" width="8.333%">出口站名</td>
+                        <td height="21" width="8.333%">轴数</td>
+                        <td height="21" width="8.333%">轴重</td>
+                        <td height="21" width="8.333%">逃费检测</td>
+                        <td height="21" width="16%">操作</td>
+                        <td height="21" width="16.666%">状态</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--利用overflow-y，overflow-x进行滑动-->
+                <div style="overflow-y: auto; height: 200px; overflow-x: hidden">
+                    <div id="con" class="col-lg-12 col-xs-12">
+                        <ul class="col-lg-12 col-xs-12">
+                            <li ng-repeat="car in carInfoArr" ><!--on-finish-render-filters-->
+                                <!--<div class="row" style="text-align: center; vertical-align: middle; border-bottom: 1px solid">-->
+                                <div class="col-lg-1 col-xs-1" style="display: inline-block">
+                                    <font id="{{car.carNo}}">{{car.carNo}}</font><a
+                                        ng-click="changeCarNo($event, car.carNo, car.laneexSerialNo)">纠正车牌</a>
+                                </div>
+                                <!--增加入口时间-->
+                                <div class="col-lg-1 col-xs-1" style="display: inline-block">
+                                    {{car.enTime}}
+                                </div>
+                                <div class="col-lg-1 col-xs-1" style="display: inline-block">
+                                    {{car.exTime}}
+                                </div>
+                                <!--增加入口站名-->
+                                <div class="col-lg-1 col-xs-1" style="display: inline-block">
+                                    {{car.enStation}}
+                                </div>
+                                <!--增加出口站名-->
+                                <div class="col-lg-1 col-xs-1" style="display: inline-block">
+                                    {{car.exStation}}
+                                </div>
+                                <!--增加轴数-->
+                                <div class="col-lg-1 col-xs-1" style="display: inline-block">
+                                    {{car.axisNum}}
+                                </div>
+                                <!--增加轴重-->
+                                <div class="col-lg-1 col-xs-1" style="display: inline-block">
+                                    {{car.totalWeight}}
+                                </div>
+                                <div class="col-lg-1 col-xs-1" style="display: inline-block">
+                                    {{car.audit}}
+                                </div>
+                                <div class="col-lg-2 col-xs-2" style="display: inline-block">
+                                    <!--由于车辆GPS文件是由流水号命名，所以应该改为传入流水号laneexSerialNo-->
+                                    <a ng-click="carTrack(car.carNo);getCarInfo(car.laneexSerialNo)">对比轨迹并查看详情</a>&nbsp;
+                                </div>
+                                <div class="col-lg-2 col-xs-2" style="display: inline-block;">
+        <span ng-if="car.action==0 && car.flag!='N'"
+              style="color: red">待处理</span>
+                                    <span ng-if="car.action==1">已标记为逃费车辆</span>
+                                    <span ng-if="car.action==2">已解除报警</span>
+                                    <span ng-if="car.flag=='N' && car.action==0">不需要处理</span>
+                                </div>
+                                <!--</div>-->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--地图显示-->
+    <div class="col-lg-6 col-md-6 col-xs-12" style="margin: auto; float: right;">
+
+        <div class="panel panel-box">
+            <div class="baidu-maps" id="allmap" style="height: 515px;border: solid; border-width: 1px;"></div>
+        </div>
+
+    </div>
+
+    <!--更改，加入选项卡的切换-->
+    <!--详情展示-->
+    <div class="col-lg-6 col-md-6" style="margin: auto;">
+        <!--批量上传-->
+        <button type="button" class="btn btn-default" onclick="javascript:window.open('commit_file.html')">批量上传</button>
+
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="#detail" data-toggle="tab"><B>详情展示</B></a>
+            </li>
+            <li>
+                <a href="#img" data-toggle="tab"><B>入口照片</B></a>
+            </li>
+        </ul>
+
+        <!--<div class="panel panel-box">-->
+        <div class="tab-content" id="myTab">
+        <div class="tab-pane fade" id="detail" style="height: 250px; border: solid; border-width: 1px; overflow-y: auto;">
+
+            <table ng-if="carInfo.carNo != null"
+                   style="margin: 10px 10px 10px 10px; width: 90%; height: 90%; text-align: left">
+                <!--<tr>-->
+                    <!--<td><B>详情展示</B></td>-->
+                <!--</tr>-->
+                <tr>
+                    <td>车牌号: {{carInfo.carNo}}</td>
+                    <!--<td>疑似逃费行为: {{carInfo.behavior}}</td>-->
+                    <td>
+                        <form role="form" >
+                            <div class="form-group">
+                                疑似逃费行为:
+                                <select class="selector form-control" ng-model="selectType" ng-change="updateSelect(selectType,carInfo.laneexSerialNo)">
+                                    <option selected="selected">{{carInfo.behavior}}</option>
+                                    <option value="" disabled>————————</option>
+                                    <option>倒卡和遮挡卡逃费</option>
+                                    <option>两车交换卡逃费</option>
+                                    <option>记重作假逃费</option>
+                                    <option>假冒优惠车辆逃费</option>
+                                    <option>强行冲岗逃费</option>
+                                    <option>中途取得卡逃费</option>
+                                    <option>套牌逃费</option>
+                                    <option>不存在逃费行为</option>
+                                </select>
+                            </div>
+                        </form>
+                        <!--<select ng-model="selectType" ng-change="updateSelect(selectType,carInfo.laneexSerialNo)" ng-options="selectType as x for x in names">-->
+                        <!--</select>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>入口时间: {{carInfo.enTime}}</td>
+                    <td>出口时间: {{carInfo.exTime}}</td>
+                </tr>
+                <tr>
+                    <td>入口路段: {{carInfo.enRoad}}</td>
+                    <td>出口路段: {{carInfo.exRoad}}</td>
+                </tr>
+
+                <tr>
+                    <td>入口收费站: {{carInfo.enStation}}</td>
+                    <td>出口收费站: {{carInfo.exStation}}</td>
+                </tr>
+                <tr>
+                    <td>行驶里程: {{carInfo.chargeMiles}}</td>
+                    <td>收费金额: {{carInfo.cashMoney}}</td>
+                </tr>
+                <tr>
+                    <td>总轴重: {{carInfo.totalWeight}}</td>
+                    <td>轴限:{{carInfo.totalWeightLimit}}</td>
+                    <!--<td><a ng-click="searchHistory(carInfo.carNo)">历史逃费次数: {{carInfo.history}}</a></td>-->
+                </tr>
+                <tr>
+                    <td>轴数: {{carInfo.axisNum}}</td>
+                    <td>轴组数: {{carInfo.axisGroupNum}}</td>
+                </tr>
+                <tr>
+                    <td>出口收费员工号: {{carInfo.exOperatorID}}</td>
+                    <td>出口收费员班次: {{carInfo.exShiftID}}</td>
+                </tr>
+                <tr>
+                    <td>异常情况: 超时，轴重变化明显</td>
+                    <td>历史逃费次数: <a ng-click="searchHistory(carInfo.carNo,carInfo.history)">{{carInfo.history}}次</a></td>
+                    <!--ng-click="searchHistory(carInfo.carNo)"-->
+                </tr>
+                <tr>
+                    <td>
+                        <!--<button type="button" class="btn btn-danger btn-xs" ng-click="confirmSuspicion(carInfo.exRecordNo,'1')">确认本次逃费嫌疑-->
+                        <!--ng-class="{'0':'btn btn-danger btn-xs','1':'btn btn-danger btn-xs','2':'btn btn-danger btn-xs'}[carInfo.action]"-->
+                        <!--ng-class="{'0':'btn btn-success btn-xs','1':'btn btn-success btn-xs','2':'btn btn-success btn-xs'}[carInfo.action]"-->
+                        <!--</button>-->
+                        <button type="button"
+                                ng-class="{'0':'btn btn-danger btn-xs','1':'btn btn-danger btn-xs disabled','2':'btn btn-danger btn-xs disabled'}[carInfo.action]"
+                                ng-click="confirmSuspicion(carInfo.laneexSerialNo,'1')">确认本次逃费嫌疑
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button"
+                                ng-class="{'0':'btn btn-success btn-xs','1':'btn btn-success btn-xs disabled','2':'btn btn-success btn-xs disabled'}[carInfo.action]"
+                                ng-click="confirmSuspicion(carInfo.laneexSerialNo,'2')">解除本次逃费嫌疑
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <table ng-if="carInfo.carNo == null"
+                   style="margin: 10px 10px 10px 10px; width: 90%; height: 90%; text-align: center">
+                <tr>
+                    <td><h5>点击左侧查看详情，查看相应车辆信息</h5></td>
+                </tr>
+            </table>
+        </div>
+        <!--入口照片选项卡-->
+        <div class="tab-pane fade" id="img" style="height: 250px; border-width: 1px; overflow-y: auto;">
+            <!--<p ng-if="carInfo.carNo == null">-->
+            <!--<h5>无车辆照片</h5>-->
+            <!--</p>-->
+            <p ng-if="carInfo.carNo != null">
+                <!--需要更改图片-->
+                <img src="img/{{carInfo.laneexSerialNo}}.JPG" style="height: 250px; border-width: 1px; overflow-y: auto;"/>
+            </p>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+<script src="js/baseUrl.js"></script>
+<script src="js/dodge-toll-audit-1.js"></script>
+</html>
+
