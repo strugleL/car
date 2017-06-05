@@ -1,0 +1,132 @@
+package com.wangyichao.dao;
+
+import com.wangyichao.utils.DataBaseTool;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.springframework.stereotype.Repository;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * Created by daivdyyl on 2017/4/17.
+ */
+
+@Repository("operatorDao")
+public class OperatorDao {
+
+    DataBaseTool dataBaseTool = DataBaseTool.getInstance();
+
+    //查看个人信息
+    public JSONArray getProfile(String operator_id) {
+        JSONArray arr = new JSONArray();
+
+        Connection conn = dataBaseTool.getConn();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from tollcollector where operator_id = ?";
+        try {
+            JSONObject obj = new JSONObject();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,operator_id);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                obj.put("operate_id",operator_id);
+                obj.put("name",rs.getString("name"));
+                obj.put("gender",rs.getString("gender"));
+                obj.put("birth_date",rs.getString("birth_date"));
+                obj.put("political_status",rs.getString("political_status"));
+                obj.put("minzu",rs.getString("minzu"));
+                obj.put("phone_number",rs.getString("phone_number"));
+                obj.put("address",rs.getString("address"));
+                obj.put("email",rs.getString("email"));
+                obj.put("work_age",rs.getString("work_age"));
+                arr.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            dataBaseTool.close(rs,ps,conn);
+        }
+        return arr;
+    }
+
+    //判断当前密码是否正确
+    public int isOldpw(String operator_id, String nowpw) {
+        Connection conn = dataBaseTool.getConn();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select count(*) from tollcollector where operator_id = ? and e_password = ?";
+        int result = 0;
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,operator_id);
+            ps.setString(2,nowpw);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                result = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dataBaseTool.close(rs,ps,conn);
+        }
+        return result;
+    }
+
+    //修改密码
+    public boolean changePw(String operator_id, String newpw) {
+        Connection conn = dataBaseTool.getConn();
+        PreparedStatement ps = null;
+        int result = 0;
+        String sql = "update tollcollector set e_password = ? where operator_id = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,newpw);
+            ps.setString(2,operator_id);
+            result = ps.executeUpdate();
+            if (result == 0 ){
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dataBaseTool.close(null,ps,conn);
+        }
+        return true;
+    }
+
+    //修改个人信息
+    public int changeInfo(String operator_id, String gender, String birth, String political, String minzu, String phone, String address, String email) {
+        Connection conn = dataBaseTool.getConn();
+        PreparedStatement ps = null;
+        int result1 = 0;
+        int result2 = 0;
+        //首先检查工号是否重复
+        String sql1 = "select count(*) from tollcollector where operator_id = ?";
+        String sql2 = "update tollcollector set operator_id=?,name=?,gender=?,birth_date=?,political_status=?,minzu=?,phone_number=?,address=?,email=? where operator_id=?";
+        try {
+                ps = conn.prepareStatement(sql2);
+                ps.setString(3,gender);
+                ps.setString(4,birth);
+                ps.setString(5,political);
+                ps.setString(6,minzu);
+                ps.setString(7,phone);
+                ps.setString(8,address);
+                ps.setString(9,email);
+                ps.setString(10,operator_id);
+
+                result2 = ps.executeUpdate();
+//            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dataBaseTool.close(null,ps,conn);
+        }
+        return result2;
+    }
+
+}

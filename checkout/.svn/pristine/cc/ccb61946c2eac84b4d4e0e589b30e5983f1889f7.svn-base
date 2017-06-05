@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>上传数据</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="../../css/fileinput.min.css"/>
+
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+
+    <script type="text/javascript" src="../../js/fileinput.js"></script>
+    <script type="text/javascript" src="../../js/locales/zh.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/angular/angular.min.js"></script>
+    <!--引入angularJS-->
+
+
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-6 col-xs-6" style="display: inline-block">
+        <p><h4 style="text-align:center">高速流水文件
+        </h4></p>
+    </div>
+    <div class="col-lg-6 col-xs-6" style="display: inline-block">
+        <form>
+            <label class="control-label">请选择xslx……</label>
+            <input id="input1" name="inputfile" multiple type="file" class="file file-loading"/>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-xs-6" style="display: inline-block">
+        <p><h4 style="text-align:center">车辆出口图片</h4></p>
+    </div>
+    <div class="col-lg-6 col-xs-6" style="display: inline-block">
+        <form>
+            <label class="control-label">请选择jpg……</label>
+            <input id="input2" name="imginput" multiple type="file" class="file file-loading"/>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-xs-6" style="display: inline-block">
+        <p><h4 style="text-align:center">车辆GPS轨迹文件</h4></p>
+    </div>
+    <div class="col-lg-6 col-xs-6" style="display: inline-block">
+        <form>
+            <label class="control-label">请选择txt……</label>
+            <input id="input3" name="txtinupt" multiple type="file" class="file file-loading"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script src="../../js/baseUrl.js"></script>
+<script type="text/javascript">
+    //样式
+    $("#input1").fileinput({
+        uploadUrl: rootUrl + "/fileInput/highSpeedFile",//上传的地址
+        language : "zh",//设置语言
+        uploadAsync: true,
+        browseClass: "btn btn-primary", //按钮样式
+        allowedFileExtensions: ["xls","xlsx","pdf"], //接收的文件后缀
+        maxFileCount: 10//最大上传文件数限制
+    });
+    //当上传成功后，响应，调用函数
+    $("#input1").on("fileuploaded", function(event, data, previewId, index){
+        if(data.response)
+        {
+            alert('上传成功');
+        }else{
+            alert("上传失败");
+        }
+    });
+    $("#input2").fileinput({
+        uploadUrl: rootUrl + "fileInput/imgUpload",//上传的地址
+        language : "zh",//设置语言
+        browseClass: "btn btn-primary", //按钮样式
+        allowedFileExtensions: ["JPG","jpg"], //接收的文件后缀
+        maxFileCount: 10//最大上传文件数限制
+    }).on("fileuploaded", function(event, data, previewId, index) {
+        if(data.response)
+        {
+            alert('上传成功');
+        }else{
+            alert("上传失败");
+        }
+    });
+    $("#input3").fileinput({
+        uploadUrl: rootUrl + "fileInput/txtUpload",//上传的地址
+        language : "zh",//设置语言
+        browseClass: "btn btn-primary", //按钮样式
+        allowedFileExtensions: ["txt"], //接收的文件后缀
+        maxFileCount: 10//最大上传文件数限制
+    }).on("fileuploaded", function(event, data, previewId, index) {
+        if(data.response)
+        {
+            alert('上传成功');
+        }else{
+            alert("上传失败");
+        }
+    });
+</script>

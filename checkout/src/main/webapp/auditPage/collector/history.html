@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>历史逃费记录</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../../css/style.css"/>
+    <script type="text/javascript" src="../../js/angular/angular.min.js"></script>
+    <!--jQuery-->
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+</head>
+<body ng-app="historyApp" ng-controller="historyCtrl">
+<div class="container" style="width: 100%">
+    <div class="col-lg-12 col-md-12" style="margin: auto;">
+        <div class="panel panel-box">
+            <div style="height: 250px; border: solid; border-width: 1px; text-align: center">
+            <table class="table table-striped" style="margin: auto; width: 100%;">
+                <tbody>
+                <tr>
+                    <td height="21" >车牌号</td>
+                    <td height="21" >入口时间</td>
+                    <td height="21" >出口时间</td>
+                    <td height="21" >入口站名</td>
+                    <td height="21" >出口站名</td>
+                    <td height="21" >轴数</td>
+                    <td height="21" >轴重</td>
+                    <td height="21" >逃费类型</td>
+                </tr>
+                <tr ng-repeat="car in carInfoArr">
+                    <td height="21" >{{car.carNo}}</td>
+                    <td height="21" >{{car.enTime}}</td>
+                    <td height="21" >{{car.exTime}}</td>
+                    <td height="21" >{{car.enStation}}</td>
+                    <td height="21" >{{car.exStation}}</td>
+                    <td height="21" >{{car.axisNum}}</td>
+                    <td height="21" >{{car.totalWeight}}</td>
+                    <td height="21" >{{car.audit}}</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="../../js/search-history.js"></script>
+<script src="../../js/baseUrl.js"></script>
+

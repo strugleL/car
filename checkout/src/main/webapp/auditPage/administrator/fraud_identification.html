@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>查看个人信息</title>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=yaDRGoon5YoRzAAwH781yUgn"></script>
+
+    <link href="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" href="http://localhost:8080/car/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="http://localhost:8080/css/style.css"/>
+    <script type="text/javascript" src="/car/js/angular/angular.min.js"></script>
+    <!--jQuery-->
+    <script type="text/javascript" src="/car/js/jquery.js"></script>
+    <script type="text/javascript" src="/car/js/bootstrap.min.js"></script>
+    <!--jQuery动画暂停插件-->
+    <script type="text/javascript" src="/car/js/jquery.pause.min.js"></script>
+    <!--滚动效果js-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+    <script type="text/javascript" src="/car/js/jquery.vticker.min.js"></script>
+
+    <!-- basic styles -->
+
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="../assets/css/font-awesome-ie7.min.css"/>
+    <![endif]-->
+
+    <!-- page specific plugin styles -->
+
+    <!-- fonts -->
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="../assets/css/ace.min.css" />
+    <link rel="stylesheet" href="../assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="../assets/css/ace-skins.min.css" />
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="../assets/css/ace-ie.min.css"/>
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+
+    <script src="../assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.js"></script>
+    <script src="../assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-app="governmentAdminApp" ng-controller="governmentAdminCtrl">
+<div class="navbar navbar-default" id="navbar">
+    <script type="text/javascript">
+        try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="#" class="navbar-brand">
+                <small>
+                    <i class="icon-leaf"></i>
+                    高速路逃费稽查典型应用
+                </small>
+            </a><!-- /.brand -->
+        </div><!-- /.navbar-header -->
+
+        <div class="navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" src="../assets/avatars/user.jpg" alt="Jason's Photo" />
+                        <span class="user-info">
+                            <small>收费员</small>
+                        </span>
+                        <i class="icon-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a ng-click="logout()">
+                                <i class="icon-off"></i>
+                                退出
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul><!-- /.ace-nav -->
+        </div><!-- /.navbar-header -->
+    </div><!-- /.container -->
+</div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <div class="sidebar" id="sidebar">
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+            </script>
+
+            <ul class="nav nav-list">
+                <li class="active">
+                    <a href="admin_index.html">
+                        <i class="icon-dashboard"></i>
+                        <span class="menu-text"> 控制台 </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-list-alt"></i>
+                        <span class="menu-text"> 欺诈风险识别 </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-tag"></i>
+                        <span class="menu-text"> 个人信息 </span>
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="password-change.html">
+                                <i class="icon-double-angle-right"></i>
+                                修改密码
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul><!-- /.nav-list -->
+
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+            </div>
+
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+            </script>
+        </div>
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="#">主页</a>
+                    </li>
+
+                    <li>
+                        <a href="#">欺诈风险识别</a>
+                    </li>
+                </ul><!-- .breadcrumb -->
+
+                <div class="nav-search" id="nav-search">
+                    <span><font size="3"><b>当前时间：{{datetime|date : 'yyyy-MM-dd hh:mm:ss'}}</b></font></span>
+                </div><!-- #nav-search -->
+            </div>
+
+            <div class="page-content">
+
+                <div class="page-header">
+                    <h1>
+                        欺诈风险识别
+                        <!--<h4 ng-if="carNo != null" style="float: right; margin-right: 20px;">当前车辆：{{carNo}}</h4>-->
+                    </h1>
+
+                </div><!-- /.page-header -->
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                        <!--按车牌查询-->
+                        <div class="row">
+                            <form ng-submit="searchCarNumber()">
+                                <div class="col-lg-3 col-xs-3" style="display: inline-block">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="form-field"> 车牌号: </label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" id="form-field" placeholder="" class="form-control" ng-model="carNumber"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-xs-2" style="display: inline-block">
+                                    <button class="btn btn-primary btn-sm" type="submit">查询</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="space-12"></div>
+
+                        <!--监控面板-->
+                        <div class="col-lg-6 col-md-6" style="margin: auto;">
+                            <!--车辆逃费监控信息-->
+                            <div class="panel panel-box">
+                                <div style="height: 250px; border: solid; border-width: 1px; text-align: center">
+                                    <table class="table table-striped" style="margin: auto; width: 100%;">
+                                        <tbody>
+                                        <tr>
+                                            <td height="21" width="12%">车牌号</td>
+                                            <td height="21" width="12%">车辆类型</td>
+                                            <td height="21" width="20%">操作</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-striped" cellspacing="0" style="margin: auto; width: 100%; height: 80%">
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <div style="overflow-y:auto; height:195px; position: relative">
+                                                    <div align="center">
+                                                        <table class="table table-striped" style="margin: auto; width: 100%; height: 80%">
+                                                            <tbody>
+                                                            <tr ng-repeat="carInfo in basicCarInfos | orderBy: 'carNo':true" style="position: relative">
+
+                                                                <td width="30%">{{carInfo.carNo}}</td>
+                                                                <td width="30%">{{carInfo.exVehicleFlag}}</td>
+                                                                <td><a ng-click="showDetails(carInfo.carNo)">展示轨迹与查看详情</a></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--地图显示-->
+                        <div class="col-lg-6 col-md-6 col-xs-12" style="margin: auto; float: right;">
+
+                            <div class="panel panel-box">
+                                <div class="baidu-maps" id="allmap" style="height: 800px;border: solid; border-width: 1px;"></div>
+                            </div>
+
+                        </div>
+
+                        <!--批量上传-->
+                        <div class="col-lg-2 col-xs-2" style="display: inline-block">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="javascript:window.open('http://localhost:8080/car/auditPage/administrator/admin_commit_file.html')">批量上传</button></br>
+                        </div>
+
+                        <div class="space-12"></div>
+
+                        <!--高速收费流水详情-->
+                        <div class="col-lg-6 col-md-6" style="margin: auto;">
+                            <div class="space-8"></div>
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default" ng-repeat="chargeData in chargeDatas | orderBy: 'enTime':false">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion"
+                                               href="#{{chargeData.segment}}">
+                                                {{chargeData.segment}}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="{{chargeData.segment}}" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table style="width: 90%; height: 90%; text-align: left; border-collapse:separate; border-spacing:10px;">
+                                                <tr>
+                                                    <td>出入时间: {{chargeData.enTime}} ~ {{chargeData.exTime}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>出入站名: {{chargeData.enStationName}} ~ {{chargeData.exStationName}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>收费里程: {{chargeData.chargeMiles / 1000 | number:3}}公里</td>
+
+                                                </tr>
+
+                                                <tr>
+                                                    <td>行驶时间: {{chargeData.timeDrive | number:2}}分</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>平均行驶速度: {{chargeData.averageSpeed | number:2}}千米/小时</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>行驶经过路段: {{chargeData.roadPassed}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--行驶轨迹详情-->
+                        <div class="col-lg-6 col-md-6" style="margin: auto;">
+                            <!--车辆逃费监控信息-->
+                            <div class="panel panel-box">
+                                <div style="height: 250px; border: solid; border-width: 1px; text-align: center">
+                                    <table class="table table-striped" style="margin: auto; width: 100%;">
+                                        <tbody>
+                                        <tr>
+                                            <td height="21" width="12%">轨迹分段</td>
+                                            <td height="21" width="12%">时间</td>
+                                            <td height="21" width="12%">经纬度</td>
+                                            <td height="21" width="12%">地址解析</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-striped" cellspacing="0" style="margin: auto; width: 100%; height: 80%">
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <div style="overflow-y:auto; height:195px; position: relative">
+                                                    <div align="center">
+                                                        <table class="table table-striped" style="margin: auto; width: 100%; height: 80%">
+                                                            <tbody>
+                                                            <tr ng-repeat="dirvingRouteData in drivingRouteDatas | orderBy: 'time':false track by $index" style="position: relative">
+                                                                <td width="12%">{{dirvingRouteData.segment}}</td>
+                                                                <td width="12%">{{dirvingRouteData.time}}</td>
+                                                                <td width="12%">{{dirvingRouteData.lng +", " + dirvingRouteData.lat}}</td>
+                                                                <td width="12%">{{dirvingRouteData.location}}</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div><!-- /.main-content -->
+
+    </div><!-- /.main-container-inner -->
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+    if("ontouchend" in document) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/typeahead-bs2.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<!-- ace scripts -->
+
+<script src="../assets/js/ace-elements.min.js"></script>
+<script src="../assets/js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</body>
+</html>
+<script src="/car/js/government_admin.js"></script>
+<script src="/car/js/baseUrl.js"></script>

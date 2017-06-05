@@ -1,0 +1,29 @@
+# �����ļ���·��
+DODGE_TOLL_CAR = /Users/daivdyyl/Documents/resource/data/dodgetollaudit/
+CAR_TRACK_URL = /Users/daivdyyl/Documents/resource/data/cartrack/
+ADMIN_TRACK_URL = /Users/daivdyyl/Documents/resource/data/admin/
+HIGH_SPEED_FILE = /Users/daivdyyl/Documents/resource/data/highspeed_file/
+IMG_FILE = /Users/daivdyyl/Documents/checkout/src/main/webapp/img/
+
+# �������ļ���·��
+#DODGE_TOLL_CAR = /opt/tomcat7-test/webapps/data/dodgetollaudit/
+#CAR_TRACK_URL = /opt/tomcat7-test/webapps/data/cartrack/
+#ADMIN_TRACK_URL = /opt/tomcat7-test/webapps/data/admin/
+# database local
+username = root
+password = 123456
+
+# database tencent
+#username = root
+#password = P@ssw0rdm
+
+driverClassName = com.mysql.jdbc.Driver
+url = jdbc:mysql://localhost:3306/car?useUnicode=true&characterEncoding=UTF-8
+
+initialPoolSize=50
+maxPoolSize=100
+minPoolSize=20
+maxIdleTime=1800
+acquireIncrement=5
+maxStatements=20
+idleConnectionTestPeriod=60

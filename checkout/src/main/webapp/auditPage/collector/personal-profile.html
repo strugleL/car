@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>查看个人信息</title>
+
+    <link rel="stylesheet" href="http://localhost:8080/car/css/bootstrap.min.css"/>
+
+    <link type="text/css" rel="stylesheet" href="http://localhost:8080/car/css/style.css"/>
+
+
+    <script type="text/javascript" src="/car/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/car/js/jquery.js"></script>
+
+    <!--引入angularJS-->
+    <script type="text/javascript" src="/car/js/angular/angular.min.js"></script>
+
+    <!-- basic styles -->
+
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="../assets/css/font-awesome-ie7.min.css"/>
+    <![endif]-->
+
+    <!-- page specific plugin styles -->
+
+    <!-- fonts -->
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="../assets/css/ace.min.css" />
+    <link rel="stylesheet" href="../assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="../assets/css/ace-skins.min.css" />
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="../assets/css/ace-ie.min.css"/>
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+
+    <script src="../assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.js"></script>
+    <script src="../assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-app="collectorApp" ng-controller="collectCtrl">
+<div class="navbar navbar-default" id="navbar">
+    <script type="text/javascript">
+        try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="#" class="navbar-brand">
+                <small>
+                    <i class="icon-leaf"></i>
+                    高速路逃费稽查典型应用
+                </small>
+            </a><!-- /.brand -->
+        </div><!-- /.navbar-header -->
+
+        <div class="navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" src="../assets/avatars/user.jpg" alt="Jason's Photo" />
+                        <span class="user-info">
+                            <small>收费员</small>
+                        </span>
+                        <i class="icon-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a ng-click="logout()">
+                                <i class="icon-off"></i>
+                                退出
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul><!-- /.ace-nav -->
+        </div><!-- /.navbar-header -->
+    </div><!-- /.container -->
+</div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <div class="sidebar" id="sidebar">
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+            </script>
+
+            <ul class="nav nav-list">
+                <li class="active">
+                    <a href="index.html">
+                        <i class="icon-dashboard"></i>
+                        <span class="menu-text"> 控制台 </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-list"></i>
+                        <span class="menu-text"> 逃费稽查工作 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li class="active">
+                            <a href="tables.html">
+                                <i class="icon-double-angle-right"></i>
+                                稽核监控面板
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="audit-result.html">
+                                <i class="icon-double-angle-right"></i>
+                                稽查工作成果
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="active open">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-edit"></i>
+                        <span class="menu-text"> 个人信息 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="#">
+                                <i class="icon-double-angle-right"></i>
+                                查看个人信息
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="change_personInfo.html">
+                                <i class="icon-double-angle-right"></i>
+                                修改个人信息
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="password-change.html">
+                                <i class="icon-double-angle-right"></i>
+                                修改密码
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul><!-- /.nav-list -->
+
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+            </div>
+
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+            </script>
+        </div>
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="#">主页</a>
+                    </li>
+
+                    <li>
+                        <a href="#">个人信息</a>
+                    </li>
+
+                    <li class="active">查看个人信息</li>
+                </ul><!-- .breadcrumb -->
+
+                <div class="nav-search" id="nav-search">
+                    <span><font size="3"><b>当前时间：{{datetime|date : 'yyyy-MM-dd hh:mm:ss'}}</b></font></span>
+                </div><!-- #nav-search -->
+            </div>
+
+            <div class="container">
+            <div class="page-content">
+                <div class="page-header">
+                    <h1>
+                        查看个人信息
+                    </h1>
+                </div><!-- /.page-header -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="space-12"></div>
+
+                        <!--由于模版原因，若字符为空，则会输出会出错，所以加上判断，若为空，输出全角的空-->
+                        <div class="profile-user-info profile-user-info-striped" style="font-size: 14px">
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 工号 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" id="operateid">{{profile.operate_id}}</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 姓名 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" id="username">{{profile.name}}</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 工龄 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" id="age">{{profile.work_age}}年</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 性别 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" ng-if="profile.gender != null" id="gender1">{{profile.gender}}</span>
+                                    <span class="editable" ng-if="profile.gender == null" id="gender2">　</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 出生年月 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" ng-if="profile.birth_date != null" id="signup1">{{profile.birth_date}}</span>
+                                    <span class="editable" ng-if="profile.birth_date == null" id="signup2">　</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 政治面貌 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" ng-if="profile.political_status != null" id="political1">{{profile.political_status}}</span>
+                                    <span class="editable" ng-if="profile.political_status == null" id="political2">　</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 民族 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" ng-if="profile.minzu != null" id="minzu1">{{profile.minzu}}</span>
+                                    <span class="editable" ng-if="profile.minzu == null" id="minzu2">　</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 联系方式 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" ng-if="profile.phone_number != null" id="telphone1">{{profile.phone_number}}</span>
+                                    <span class="editable" ng-if="profile.phone_number == null" id="telphone2">　</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 住址 </div>
+
+                                <div class="profile-info-value">
+                                    <!--<i class="icon-map-marker light-orange bigger-110"></i>-->
+                                    <span class="editable" ng-if="profile.address != null" id="address1">{{profile.address}}</span>
+                                    <span class="editable" ng-if="profile.address == null" id="address2">　</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> 邮箱 </div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable" ng-if="profile.email != null" id="e-mail1">{{profile.email}}</span>
+                                    <span class="editable" ng-if="profile.email == null" id="e-mail2">　</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div><!-- /.main-content -->
+            </div>
+
+    </div><!-- /.main-container-inner -->
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
+
+<!--&lt;!&ndash; <![endif]&ndash;&gt;-->
+
+<!--&lt;!&ndash;[if IE]>-->
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+<!--<![endif]&ndash;&gt;-->
+
+<!--[if !IE]> -->
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+    if("ontouchend" in document) document.write("<script src='../assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/typeahead-bs2.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<!-- ace scripts -->
+
+<script src="../assets/js/ace-elements.min.js"></script>
+<script src="../assets/js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</body>
+</html>
+<script src="/car/js/collector-operate.js"></script>
+<script src="/car/js/baseUrl.js"></script>
