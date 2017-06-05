@@ -1,0 +1,165 @@
+/**
+ * Created by daivdyyl on 2017/4/8.
+ */
+var app = angular.module("operatorApp",[]);
+app.controller("operatorCtrl",function($scope, $http, $interval){
+
+    // 系统计时器
+    var timer = $interval(function () {
+        $scope.datetime = new Date();
+    }, 1000);
+
+
+    var getOperatorsTableData = function (scope) {
+        var tableUrl = rootUrl + "statistic/getOperatorsTableDataArray?scope=" + scope;
+        $http.get(tableUrl).success(function (response) {
+            // $scope.rows = response.table;
+            // console.log('gg rows: ' + $scope.rows[0].station);
+            // $scope.rows = response;
+            // console.log('response: ' + response);
+            operatorsTableShow(response);
+        }).error(function (data) {
+            console.log(data);
+        });
+
+    };
+
+    var operatorsTableShow = function (dataSet) {
+        //百分率排序
+        jQuery.fn.dataTableExt.oSort['number-fate-asc'] = function (s1, s2) {
+            // var m = s1.match(/>(\S*)</)[1];
+            // var n = s2.match(/>(\S*)</)[1];
+            // console.log('m and n: ' + m,n);
+            // console.log('match: ' + m);
+            if (s1.length>s2.length) {
+                return 1;
+            } else if (s1.length<s2.length) {
+                return -1;
+            } else {
+                var x = s1.replace('%','');
+                var y = s2.replace('%','');
+                // console.log(s1);
+                return ((parseFloat(x) > parseFloat(y)) ? 1 : ((parseFloat(x) < parseFloat(y)) ?  -1 : 0));
+            }
+        };
+
+        jQuery.fn.dataTableExt.oSort['number-fate-desc'] = function (s1, s2) {
+            // var m = s1.match(/>(\S*)</)[1];
+            // var n = s2.match(/>(\S*)</)[1];
+            if (s1.length>s2.length) {
+                return -1;
+            } else if (s1.length<s2.length) {
+                return 1;
+            } else {
+                var x = s1.replace('%','');
+                var y = s2.replace('%','');
+                return ((parseFloat(x) > parseFloat(y)) ? -1 : ((parseFloat(x) < parseFloat(y)) ?  1 : 0));
+            }
+
+        };
+        //中文数字排序
+        jQuery.fn.dataTableExt.oSort['chinesenum-string-asc'] = function (s1, s2) {
+            // console.log('x,y: ' +x+' '+y);
+            // var reg = /[\u4E00-\u9FA5]/g;
+            // var m = s1.replace(reg,'');
+            // var n = s2.replace(reg,'');
+            // console.log(m,n);
+            return ((parseFloat(s1) > parseFloat(s2)) ? 1 : ((parseFloat(s1) < parseFloat(s2)) ?  -1 : 0));
+        };
+        jQuery.fn.dataTableExt.oSort['chinesenum-string-desc'] = function (s1, s2) {
+            // var reg = /[\u4E00-\u9FA5]/g;
+            // var m = s1.replace(reg,'');
+            // var n = s2.replace(reg,'');
+            // console.log(m,n);
+            return ((parseFloat(s1) > parseFloat(s2)) ? -1 : ((parseFloat(s1) < parseFloat(s2)) ?  1 : 0));
+        };
+        // //中文排序
+        // jQuery.fn.dataTableExt.oSort['chinese-string-asc'] = function (x, y) {
+        //     return ((x>y)?1:(x<y)?-1:0);
+        // };
+        // jQuery.fn.dataTableExt.oSort['chinese-string-desc'] = function (x, y) {
+        //     return ((x>y)?-1:(x<y)?1:0);
+        // };
+
+        $(document).ready(function () {
+            // console.log('haha: ' + $scope.rows[0].station);
+            // var dataSet = $scope.rows;
+
+            $('#operatorsTable').DataTable({
+                destroy: true,
+                "data": dataSet,
+                "columns": [
+                    {"data": 'operatorid'},
+                    {"data": 'station'},
+                    {"data": 'action1'},
+                    {"data": 'saveMoney'},
+                    {"data": 'rate'}
+                ],
+                "aoColumns": [
+                    {"sType": "chinesenum-string"}, //中文排序列
+                    null,
+                    {"sType": "chinesenum-string"},
+                    {"sType": "chinesenum-string"},
+                    {"sType": "number-fate"} //百分率排序
+                ],
+                "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 1 ] }], // 设置第一列不可排序
+                language: {
+                    "sProcessing": "处理中...",
+                    "sLengthMenu": "显示 _MENU_ 项结果",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜索:",
+                    "sUrl": "",
+                    "sEmptyTable": "表中数据为空",
+                    "sLoadingRecords": "载入中...",
+                    "sInfoThousands": ",",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上页",
+                        "sNext": "下页",
+                        "sLast": "末页"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": 以升序排列此列",
+                        "sSortDescending": ": 以降序排列此列"
+                    }
+                }
+            });
+        });
+    };
+
+    // 初始化表格数据
+    getOperatorsTableData(12);
+
+    // 设置及初始化下拉列表
+    $scope.operatorsOptions = {
+        '最近半年': 6,
+        '最近一年': 12
+    };
+    $scope.operatorsSelectedOption = 12;
+    $scope.operatorsChangeScope = function (selectedOption) {
+        // 根据传入的时间范围更新表格数据
+        // $scope.rows = "";
+        // var table = $('#example').DataTable();
+        // table.fnClearTable(table);
+        getOperatorsTableData(selectedOption);
+    };
+
+    /**
+     * 注销，跳转到登录页面
+     *
+     *
+     * */
+
+    $scope.logout = function(){
+        var url = rootUrl + "login/logout";
+        $http.get(url).success(function(response){
+            var result = response;
+            console.log(result);
+            window.location.href="car/auditPage/login.html";
+        });
+    }
+});
